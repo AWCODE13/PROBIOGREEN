@@ -12,50 +12,52 @@ class CatalogSeeder extends Seeder
 {
     public function run(): void
     {
+        // Commodities (tidak perlu banyak, hanya untuk dosis)
         $padi = $this->commodity('padi', 'pertanian', 'Padi', 1);
-        $jagung = $this->commodity('jagung', 'pertanian', 'Jagung', 2);
-        $ayam = $this->commodity('ayam-broiler', 'peternakan', 'Ayam broiler', 3);
-        $nila = $this->commodity('nila', 'perikanan', 'Nila', 4);
+        $ayam = $this->commodity('ayam-broiler', 'peternakan', 'Ayam broiler', 2);
+        $nila = $this->commodity('nila', 'perikanan', 'Nila', 3);
 
-        // Pertanian
-        $tanaman = $this->product(
-            'probiogreen-tanaman',
+        // Products dengan harga
+        $pertanian = $this->product(
+            'probiogreen-pertanian',
             'pertanian',
-            'Probiogreen Tanaman',
+            'Probiogreen Pertanian',
             1,
-            'Pupuk hayati & pembenah tanah untuk padi, jagung, sayuran.',
+            'Pupuk hayati & pembenah tanah untuk meningkatkan produktivitas lahan pangan, hortikultura, dan pertanian berkelanjutan.',
+            [500 => 35000, 1000 => 65000],
         );
 
-        // Perkebunan
         $perkebunan = $this->product(
             'probiogreen-perkebunan',
             'perkebunan',
             'Probiogreen Perkebunan',
             2,
-            'Suplemen organik untuk perkebunan kakao, kelapa, karet.',
+            'Suplemen organik untuk perkebunan kakao, kelapa, karet, dan tanaman perkebunan lainnya dengan hasil optimal.',
+            [500 => 35000, 1000 => 65000],
         );
 
-        // Peternakan
-        $ternak = $this->product(
-            'probiogreen-ternak',
+        $peternakan = $this->product(
+            'probiogreen-peternakan',
             'peternakan',
-            'Probiogreen Ternak',
+            'Probiogreen Peternakan',
             3,
-            'Suplemen nafsu makan & pencernaan untuk ayam, sapi, kambing.',
+            'Suplemen nafsu makan, pencernaan, dan kesehatan untuk ternak ayam, sapi, kambing, dan unggas lainnya.',
+            [500 => 35000, 1000 => 65000],
         );
 
-        // Perikanan
-        $ikan = $this->product(
-            'probiogreen-ikan',
+        $perikanan = $this->product(
+            'probiogreen-perikanan',
             'perikanan',
-            'Probiogreen Ikan',
+            'Probiogreen Perikanan',
             4,
-            'Suplemen kolam & tambak untuk nila, lele, udang.',
+            'Suplemen kolam dan tambak untuk ikan nila, lele, udang, dan budidaya air lainnya dengan kualitas terjamin.',
+            [500 => 35000, 1000 => 65000],
         );
 
+        // Dosage rules
         DosageRule::updateOrCreate(
             [
-                'product_id' => $tanaman->id,
+                'product_id' => $pertanian->id,
                 'commodity_id' => $padi->id,
                 'basis' => 'per_ha',
             ],
@@ -71,7 +73,7 @@ class CatalogSeeder extends Seeder
 
         DosageRule::updateOrCreate(
             [
-                'product_id' => $ternak->id,
+                'product_id' => $peternakan->id,
                 'commodity_id' => $ayam->id,
                 'basis' => 'per_animal_day',
             ],
@@ -87,7 +89,7 @@ class CatalogSeeder extends Seeder
 
         DosageRule::updateOrCreate(
             [
-                'product_id' => $ikan->id,
+                'product_id' => $perikanan->id,
                 'commodity_id' => $nila->id,
                 'basis' => 'per_m3_day',
             ],
@@ -100,8 +102,6 @@ class CatalogSeeder extends Seeder
                 'is_active' => true,
             ],
         );
-
-        $jagung->update(['is_active' => true]);
     }
 
     private function commodity(
@@ -129,13 +129,14 @@ class CatalogSeeder extends Seeder
         string $name,
         int $sort,
         string $description = 'Data produk masih berupa contoh sampai spesifikasi resmi tersedia.',
+        array $variants = [500 => null, 1000 => null],
     ): Product {
         $product = Product::updateOrCreate(
             ['slug' => $slug],
             [
                 'category' => $category,
                 'form' => 'liquid',
-                'price_visible' => false,
+                'price_visible' => true,
                 'is_active' => true,
                 'sort' => $sort,
             ],
@@ -149,15 +150,15 @@ class CatalogSeeder extends Seeder
             ],
         );
 
-        ProductVariant::updateOrCreate(
-            ['product_id' => $product->id, 'label' => '500 ml'],
-            ['volume_ml' => 500, 'price_idr' => null, 'is_active' => true, 'sort' => 1],
-        );
-
-        ProductVariant::updateOrCreate(
-            ['product_id' => $product->id, 'label' => '1 L'],
-            ['volume_ml' => 1000, 'price_idr' => null, 'is_active' => true, 'sort' => 2],
-        );
+        $sort = 1;
+        foreach ($variants as $volume_ml => $price_idr) {
+            $label = $volume_ml === 500 ? '500 ml' : ($volume_ml === 1000 ? '1 L' : "{$volume_ml} ml");
+            ProductVariant::updateOrCreate(
+                ['product_id' => $product->id, 'label' => $label],
+                ['volume_ml' => $volume_ml, 'price_idr' => $price_idr, 'is_active' => true, 'sort' => $sort],
+            );
+            $sort++;
+        }
 
         return $product;
     }
