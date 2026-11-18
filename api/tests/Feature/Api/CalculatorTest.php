@@ -32,8 +32,8 @@ class CalculatorTest extends TestCase
             ->assertJsonPath('data.display', '1 L')
             ->assertJsonPath('data.packages.0.label', '1 L')
             ->assertJsonPath('data.packages.0.qty', 1)
-            ->assertJsonPath('data.price_complete', false)
-            ->assertJsonPath('data.estimated_cost_idr', null)
+            ->assertJsonPath('data.price_complete', true)
+            ->assertJsonPath('data.estimated_cost_idr', 65000)
             ->assertJsonCount(2, 'data.schedule');
     }
 

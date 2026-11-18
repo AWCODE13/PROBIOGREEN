@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { CalculatorPreview } from "@/components/site/calculator-preview";
+import { PopularProducts } from "@/components/site/popular-products";
 import { consultationHref } from "@/lib/site";
 
 const sectors = [
@@ -144,6 +145,8 @@ export default function Home() {
             memilihkan jumlahnya berdasarkan komoditas yang kamu masukkan.
           </p>
 
+          <PopularProducts />
+
           <div className="mt-10 divide-y divide-border border-y border-border">
             {sectors.map((sector, index) => (
               <div
@@ -169,6 +172,12 @@ export default function Home() {
                 </Link>
               </div>
             ))}
+          </div>
+
+          <div className="mt-8">
+            <Button asChild variant="outline">
+              <Link href="/produk">Lihat semua produk</Link>
+            </Button>
           </div>
         </div>
       </section>

@@ -16,6 +16,7 @@ class CatalogSeeder extends Seeder
         $padi = $this->commodity('padi', 'pertanian', 'Padi', 1);
         $ayam = $this->commodity('ayam-broiler', 'peternakan', 'Ayam broiler', 2);
         $nila = $this->commodity('nila', 'perikanan', 'Nila', 3);
+        $this->commodity('jagung', 'pertanian', 'Jagung', 4);
 
         // Products dengan harga
         $pertanian = $this->product(
@@ -25,6 +26,7 @@ class CatalogSeeder extends Seeder
             1,
             'Pupuk hayati & pembenah tanah untuk meningkatkan produktivitas lahan pangan, hortikultura, dan pertanian berkelanjutan.',
             [500 => 35000, 1000 => 65000],
+            true,
         );
 
         $perkebunan = $this->product(
@@ -34,6 +36,7 @@ class CatalogSeeder extends Seeder
             2,
             'Suplemen organik untuk perkebunan kakao, kelapa, karet, dan tanaman perkebunan lainnya dengan hasil optimal.',
             [500 => 35000, 1000 => 65000],
+            false,
         );
 
         $peternakan = $this->product(
@@ -43,6 +46,7 @@ class CatalogSeeder extends Seeder
             3,
             'Suplemen nafsu makan, pencernaan, dan kesehatan untuk ternak ayam, sapi, kambing, dan unggas lainnya.',
             [500 => 35000, 1000 => 65000],
+            true,
         );
 
         $perikanan = $this->product(
@@ -52,6 +56,7 @@ class CatalogSeeder extends Seeder
             4,
             'Suplemen kolam dan tambak untuk ikan nila, lele, udang, dan budidaya air lainnya dengan kualitas terjamin.',
             [500 => 35000, 1000 => 65000],
+            true,
         );
 
         // Dosage rules
@@ -130,6 +135,8 @@ class CatalogSeeder extends Seeder
         int $sort,
         string $description = 'Data produk masih berupa contoh sampai spesifikasi resmi tersedia.',
         array $variants = [500 => null, 1000 => null],
+        bool $isPopular = false,
+        ?string $imagePath = null,
     ): Product {
         $product = Product::updateOrCreate(
             ['slug' => $slug],
@@ -139,6 +146,8 @@ class CatalogSeeder extends Seeder
                 'price_visible' => true,
                 'is_active' => true,
                 'sort' => $sort,
+                'is_popular' => $isPopular,
+                'image_path' => $imagePath,
             ],
         );
 

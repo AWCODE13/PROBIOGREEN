@@ -14,6 +14,8 @@ class Product extends Model
         'price_visible',
         'is_active',
         'sort',
+        'image_path',
+        'is_popular',
     ];
 
     protected function casts(): array
@@ -21,6 +23,7 @@ class Product extends Model
         return [
             'price_visible' => 'boolean',
             'is_active' => 'boolean',
+            'is_popular' => 'boolean',
             'sort' => 'integer',
         ];
     }
@@ -50,5 +53,17 @@ class Product extends Model
             ?? $translations->first();
 
         return $translation?->name ?? $this->slug;
+    }
+
+    public function descriptionFor(string $locale = 'id'): ?string
+    {
+        $translations = $this->relationLoaded('translations')
+            ? $this->translations
+            : $this->translations()->get();
+
+        $translation = $translations->firstWhere('locale', $locale)
+            ?? $translations->first();
+
+        return $translation?->description;
     }
 }
