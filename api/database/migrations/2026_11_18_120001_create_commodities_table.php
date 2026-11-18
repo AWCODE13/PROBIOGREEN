@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
-            $table->enum('category', ['agriculture', 'livestock', 'fishery'])->index();
+            $table->enum('category', ['pertanian', 'peternakan', 'perikanan', 'perkebunan'])->index();
             $table->boolean('is_active')->default(true);
             $table->unsignedSmallInteger('sort')->default(0);
             $table->timestamps();

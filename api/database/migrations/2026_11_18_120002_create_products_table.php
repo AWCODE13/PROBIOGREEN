@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
-            $table->enum('category', ['agriculture', 'livestock', 'fishery'])->index();
+            $table->enum('category', ['pertanian', 'peternakan', 'perikanan', 'perkebunan'])->index();
             $table->enum('form', ['liquid', 'solid'])->default('liquid');
             $table->boolean('price_visible')->default(false);
             $table->boolean('is_active')->default(true);

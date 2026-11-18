@@ -12,28 +12,45 @@ class CatalogSeeder extends Seeder
 {
     public function run(): void
     {
-        $padi = $this->commodity('padi', 'agriculture', 'Padi', 1);
-        $jagung = $this->commodity('jagung', 'agriculture', 'Jagung', 2);
-        $ayam = $this->commodity('ayam-broiler', 'livestock', 'Ayam broiler', 3);
-        $nila = $this->commodity('nila', 'fishery', 'Nila', 4);
+        $padi = $this->commodity('padi', 'pertanian', 'Padi', 1);
+        $jagung = $this->commodity('jagung', 'pertanian', 'Jagung', 2);
+        $ayam = $this->commodity('ayam-broiler', 'peternakan', 'Ayam broiler', 3);
+        $nila = $this->commodity('nila', 'perikanan', 'Nila', 4);
 
+        // Pertanian
         $tanaman = $this->product(
             'probiogreen-tanaman',
-            'agriculture',
+            'pertanian',
             'Probiogreen Tanaman',
             1,
+            'Pupuk hayati & pembenah tanah untuk padi, jagung, sayuran.',
         );
+
+        // Perkebunan
+        $perkebunan = $this->product(
+            'probiogreen-perkebunan',
+            'perkebunan',
+            'Probiogreen Perkebunan',
+            2,
+            'Suplemen organik untuk perkebunan kakao, kelapa, karet.',
+        );
+
+        // Peternakan
         $ternak = $this->product(
             'probiogreen-ternak',
-            'livestock',
+            'peternakan',
             'Probiogreen Ternak',
-            2,
+            3,
+            'Suplemen nafsu makan & pencernaan untuk ayam, sapi, kambing.',
         );
+
+        // Perikanan
         $ikan = $this->product(
             'probiogreen-ikan',
-            'fishery',
+            'perikanan',
             'Probiogreen Ikan',
-            3,
+            4,
+            'Suplemen kolam & tambak untuk nila, lele, udang.',
         );
 
         DosageRule::updateOrCreate(
@@ -111,6 +128,7 @@ class CatalogSeeder extends Seeder
         string $category,
         string $name,
         int $sort,
+        string $description = 'Data produk masih berupa contoh sampai spesifikasi resmi tersedia.',
     ): Product {
         $product = Product::updateOrCreate(
             ['slug' => $slug],
@@ -127,7 +145,7 @@ class CatalogSeeder extends Seeder
             ['locale' => 'id'],
             [
                 'name' => $name,
-                'description' => 'Data produk masih berupa contoh sampai spesifikasi resmi tersedia.',
+                'description' => $description,
             ],
         );
 
