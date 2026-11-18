@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CalculatorLog extends Model
 {
@@ -24,5 +25,10 @@ class CalculatorLog extends Model
             'payload' => 'array',
             'result' => 'array',
         ];
+    }
+
+    public function commodity(): BelongsTo
+    {
+        return $this->belongsTo(Commodity::class);
     }
 }
