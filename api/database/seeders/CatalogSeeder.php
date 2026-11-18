@@ -16,7 +16,7 @@ class CatalogSeeder extends Seeder
         $padi = $this->commodity('padi', 'pertanian', 'Padi', 1);
         $ayam = $this->commodity('ayam-broiler', 'peternakan', 'Ayam broiler', 2);
         $nila = $this->commodity('nila', 'perikanan', 'Nila', 3);
-        $this->commodity('jagung', 'pertanian', 'Jagung', 4);
+        $jagung = $this->commodity('jagung', 'pertanian', 'Jagung', 4);
 
         // Products dengan harga
         $pertanian = $this->product(
@@ -59,54 +59,32 @@ class CatalogSeeder extends Seeder
             true,
         );
 
-        // Dosage rules
-        DosageRule::updateOrCreate(
-            [
-                'product_id' => $pertanian->id,
-                'commodity_id' => $padi->id,
-                'basis' => 'per_ha',
-            ],
-            [
-                'value_ml' => 2000,
-                'frequency' => 'biweekly',
-                'duration_weeks' => 4,
-                'note' => 'Encerkan sesuai anjuran pada kemasan sebelum aplikasi.',
-                'source' => 'PLACEHOLDER',
-                'is_active' => true,
-            ],
-        );
+        // Dosis estimasi: rata-rata pupuk organik cair (POC) yang umum dipakai.
+        // Bukan dosis resmi produk; sesuaikan dengan label kemasan.
+        $rules = [
+            [$pertanian, $padi, 'per_ha', 3000, 'biweekly', 8, 'Aplikasi 3 L/ha tiap 2 minggu, 4 kali per siklus.'],
+            [$pertanian, $jagung, 'per_ha', 3000, 'biweekly', 8, 'Aplikasi 3 L/ha tiap 2 minggu, 4 kali per siklus.'],
+            [$peternakan, $ayam, 'per_animal_day', 1, 'daily', 4, 'Sekitar 1 ml/ekor/hari dicampur air minum.'],
+            [$perikanan, $nila, 'per_m3_day', 2, 'daily', 4, 'Sekitar 2 ml/m3/hari ditebar merata ke kolam.'],
+        ];
 
-        DosageRule::updateOrCreate(
-            [
-                'product_id' => $peternakan->id,
-                'commodity_id' => $ayam->id,
-                'basis' => 'per_animal_day',
-            ],
-            [
-                'value_ml' => 1,
-                'frequency' => 'weekly',
-                'duration_weeks' => 4,
-                'note' => 'Dosis harian dicampur ke air minum.',
-                'source' => 'PLACEHOLDER',
-                'is_active' => true,
-            ],
-        );
-
-        DosageRule::updateOrCreate(
-            [
-                'product_id' => $perikanan->id,
-                'commodity_id' => $nila->id,
-                'basis' => 'per_m3_day',
-            ],
-            [
-                'value_ml' => 2,
-                'frequency' => 'weekly',
-                'duration_weeks' => 8,
-                'note' => 'Dosis harian ditebar merata ke kolam.',
-                'source' => 'PLACEHOLDER',
-                'is_active' => true,
-            ],
-        );
+        foreach ($rules as [$product, $commodity, $basis, $value, $frequency, $weeks, $note]) {
+            DosageRule::updateOrCreate(
+                [
+                    'product_id' => $product->id,
+                    'commodity_id' => $commodity->id,
+                    'basis' => $basis,
+                ],
+                [
+                    'value_ml' => $value,
+                    'frequency' => $frequency,
+                    'duration_weeks' => $weeks,
+                    'note' => $note,
+                    'source' => 'ESTIMASI',
+                    'is_active' => true,
+                ],
+            );
+        }
     }
 
     private function commodity(

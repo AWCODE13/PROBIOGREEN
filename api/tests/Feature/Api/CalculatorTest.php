@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\CalculatorLog;
+use App\Models\Commodity;
 use Database\Seeders\CatalogSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -28,13 +30,13 @@ class CalculatorTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonPath('data.available', true)
-            ->assertJsonPath('data.total_ml', 1000)
-            ->assertJsonPath('data.display', '1 L')
+            ->assertJsonPath('data.total_ml', 6000)
+            ->assertJsonPath('data.display', '6 L')
             ->assertJsonPath('data.packages.0.label', '1 L')
-            ->assertJsonPath('data.packages.0.qty', 1)
+            ->assertJsonPath('data.packages.0.qty', 6)
             ->assertJsonPath('data.price_complete', true)
-            ->assertJsonPath('data.estimated_cost_idr', 65000)
-            ->assertJsonCount(2, 'data.schedule');
+            ->assertJsonPath('data.estimated_cost_idr', 390000)
+            ->assertJsonCount(4, 'data.schedule');
     }
 
     public function test_livestock_mode_multiplies_population_and_days(): void
@@ -69,9 +71,16 @@ class CalculatorTest extends TestCase
 
     public function test_commodity_without_dosage_rule_is_reported_as_unavailable(): void
     {
+        Commodity::create([
+            'slug' => 'kambing',
+            'category' => 'peternakan',
+            'is_active' => true,
+            'sort' => 99,
+        ]);
+
         $response = $this->postJson('/api/v1/calculator/calculate', [
             'mode' => 'plant',
-            'commodity_slug' => 'jagung',
+            'commodity_slug' => 'kambing',
             'area_m2' => 1000,
         ]);
 
@@ -107,7 +116,7 @@ class CalculatorTest extends TestCase
 
         $this->assertDatabaseCount('calculator_logs', 1);
 
-        $log = \App\Models\CalculatorLog::query()->first();
+        $log = CalculatorLog::query()->first();
 
         $this->assertSame(hash('sha256', 'session-abc-123'), $log->session_hash);
         $this->assertNotSame('session-abc-123', $log->session_hash);

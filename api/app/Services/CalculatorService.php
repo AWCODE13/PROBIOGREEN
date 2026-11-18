@@ -9,7 +9,23 @@ use Illuminate\Support\Collection;
 
 class CalculatorService
 {
-    public const DISCLAIMER = 'Hasil perhitungan adalah estimasi berdasarkan dosis anjuran. Kondisi lahan, air, dan iklim dapat mengubah kebutuhan aktual.';
+    public const DISCLAIMER = 'Hasil perhitungan memakai asumsi dosis rata-rata pupuk organik cair, bukan dosis resmi produk. Sesuaikan jumlah, interval, dan cara aplikasi dengan label kemasan serta kondisi lahan.';
+
+    /**
+     * Jumlah aplikasi dalam satu siklus, dipakai untuk basis per luas/tanaman.
+     */
+    private function applications(DosageRule $rule): int
+    {
+        $lastWeek = max(0, $rule->duration_weeks - 1);
+        $step = match ($rule->frequency) {
+            'weekly', 'daily' => 1,
+            'biweekly' => 2,
+            'monthly' => 4,
+            default => max(1, $lastWeek),
+        };
+
+        return max(1, intdiv($lastWeek, $step) + 1);
+    }
 
     public function calculate(array $input, string $locale = 'id'): array
     {
@@ -75,10 +91,11 @@ class CalculatorService
     private function totalMl(DosageRule $rule, array $input): int
     {
         $days = (int) ($input['days'] ?? 1);
+        $applications = $this->applications($rule);
 
         $ml = match ($rule->basis) {
-            'per_ha' => ((float) ($input['area_m2'] ?? 0) / 10000) * $rule->value_ml,
-            'per_plant' => (float) ($input['plants'] ?? 0) * $rule->value_ml,
+            'per_ha' => ((float) ($input['area_m2'] ?? 0) / 10000) * $rule->value_ml * $applications,
+            'per_plant' => (float) ($input['plants'] ?? 0) * $rule->value_ml * $applications,
             'per_animal_day' => (float) ($input['population'] ?? 0) * $rule->value_ml * $days,
             'per_m3_day' => (float) ($input['volume_m3'] ?? 0) * $rule->value_ml * $days,
             'per_kg_biomass_day' => (((float) ($input['population'] ?? 0) * (float) ($input['weight_g'] ?? 0)) / 1000) * $rule->value_ml * $days,
@@ -137,7 +154,7 @@ class CalculatorService
         $lastWeek = max(0, $rule->duration_weeks - 1);
 
         $weeks = match ($rule->frequency) {
-            'weekly' => range(0, $lastWeek),
+            'weekly', 'daily' => range(0, $lastWeek),
             'biweekly' => range(0, $lastWeek, 2),
             'monthly' => range(0, $lastWeek, 4),
             default => [0],
