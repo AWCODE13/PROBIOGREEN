@@ -19,4 +19,4 @@ export function whatsappHref(message: string): string | null {
 }
 
 export const consultationHref =
-  whatsappHref("Halo Probiogreen, saya ingin berkonsultasi.") ?? "#kontak";
+  whatsappHref("Halo Probiogreen, saya ingin berkonsultasi.") ?? "/kalkulator";
