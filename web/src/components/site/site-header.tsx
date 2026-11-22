@@ -18,7 +18,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 border-b border-[#DCE6DC] dark:border-[#153D22] bg-[#F8FAF6] dark:bg-[#0C2E17]">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
@@ -38,7 +38,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary-container hover:text-on-secondary-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="rounded-full px-3.5 py-2 text-sm text-[#072110] dark:text-[#E2E8F0] transition-colors hover:bg-secondary-container dark:hover:bg-[#153D22] hover:text-on-secondary-container dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {item.label}
                 </Link>

@@ -86,7 +86,7 @@ export function ProductCard({ product }: { product: Product }) {
         </dl>
 
         <div className="mt-auto pt-5">
-          <Button asChild className="w-full rounded-full">
+          <Button asChild className="rounded-md px-4 py-2">
             <Link href="/kalkulator">Hitung kebutuhan</Link>
           </Button>
         </div>

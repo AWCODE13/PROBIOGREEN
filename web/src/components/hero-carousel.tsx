@@ -141,12 +141,12 @@ export function HeroCarousel() {
           type="button"
           onClick={prevSlide}
           aria-label="Slide sebelumnya"
-          className="absolute left-1 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg hover:bg-white text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
-            className="size-5"
+            className="size-4"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -160,12 +160,12 @@ export function HeroCarousel() {
           type="button"
           onClick={nextSlide}
           aria-label="Slide berikutnya"
-          className="absolute right-1 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg hover:bg-white text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
-            className="size-5"
+            className="size-4"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -174,43 +174,6 @@ export function HeroCarousel() {
           >
             <path d="M9 6l6 6-6 6" />
           </svg>
-        </button>
-
-        {/* Kontrol play/pause - persistently visible */}
-        <button
-          type="button"
-          onClick={() => setPaused(!paused)}
-          aria-label={paused ? "Mainkan carousel" : "Pause carousel"}
-          className="absolute left-1/2 -translate-x-1/2 bottom-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#1B6B38] text-white transition-colors hover:bg-[#155330] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          {paused ? (
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="size-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 4h4v16H6zm5.5-5.5L8.5 13.5l5.5 5.5" />
-            </svg>
-          ) : (
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="size-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="2" y="6" width="20" height="12" rx="2" ry="2" />
-              <path d="M10 8L17 12L10 16" />
-            </svg>
-          )}
         </button>
 
         {/* Indikator bawah - ukuran lebih besar untuk touch target */}
