@@ -100,13 +100,27 @@ function SectionHead({
 export default function Home() {
   return (
     <>
-      <section className="border-b border-border">
+      <section className="relative isolate overflow-hidden border-b border-border">
+        <picture className="absolute inset-0 -z-20">
+          <source srcSet="/images/bg.webp" type="image/webp" />
+          <img
+            src="/images/bg.png"
+            alt=""
+            aria-hidden="true"
+            className="size-full object-cover"
+          />
+        </picture>
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/30"
+        />
+
         <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:py-24">
           <div>
-            <h1 className="text-balance font-heading text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] sm:text-6xl lg:text-7xl">
+            <h1 className="text-balance font-heading text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
               Hitung kebutuhan dulu, sebelum membeli.
             </h1>
-            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/85 sm:text-lg">
               Masukkan luas lahan atau jumlah ternak. Kebutuhan produk, perkiraan
               biaya, dan jadwal aplikasi muncul dalam satu menit, tanpa akun.
             </p>
@@ -114,17 +128,22 @@ export default function Home() {
               <Button asChild size="lg">
                 <Link href="#kalkulator">Pelajari cara hitungnya</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+              >
                 <Link href="#produk">Lihat kategori</Link>
               </Button>
             </div>
-            <p className="mt-7 text-sm text-muted-foreground">
+            <p className="mt-7 text-sm text-white/75">
               Pertanian
-              <span aria-hidden="true" className="mx-2 text-border">
+              <span aria-hidden="true" className="mx-2 text-white/40">
                 /
               </span>
               Peternakan
-              <span aria-hidden="true" className="mx-2 text-border">
+              <span aria-hidden="true" className="mx-2 text-white/40">
                 /
               </span>
               Perikanan
