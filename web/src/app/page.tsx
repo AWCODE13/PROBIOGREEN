@@ -115,8 +115,8 @@ export default function Home() {
           className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/30"
         />
 
-        <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:py-24">
-          <div>
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="max-w-2xl">
             <h1 className="text-balance font-heading text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
               Hitung kebutuhan dulu, sebelum membeli.
             </h1>
@@ -148,10 +148,6 @@ export default function Home() {
               </span>
               Perikanan
             </p>
-          </div>
-
-          <div className="lg:pl-2">
-            <CalculatorPreview />
           </div>
         </div>
       </section>
@@ -215,6 +211,10 @@ export default function Home() {
               populasi, dan lama siklus untuk ternak dan ikan. Selebihnya dihitung
               dari data dosis yang dikelola tim.
             </p>
+
+            <div className="mt-8">
+              <CalculatorPreview />
+            </div>
           </div>
 
           <div className="rounded-lg border border-border bg-card p-6">
