@@ -22,9 +22,9 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <span className="grid size-8 place-items-center rounded-md bg-primary text-primary-foreground">
+          <span className="grid size-8 place-items-center rounded-[12px_4px_12px_4px] bg-primary text-primary-foreground">
             <Sprout aria-hidden="true" className="size-4.5" />
           </span>
           <span className="text-[15px] font-semibold tracking-tight">
@@ -38,7 +38,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary-container hover:text-on-secondary-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {item.label}
                 </Link>
@@ -49,7 +49,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1">
           <ThemeToggle />
-          <Button asChild size="sm" className="hidden sm:inline-flex">
+          <Button asChild size="sm" className="hidden rounded-full px-4 sm:inline-flex">
             <Link href={consultationHref}>Tanya kebutuhan</Link>
           </Button>
 

@@ -4,7 +4,7 @@ import { consultationHref, site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer id="kontak" className="border-t border-border bg-secondary/40">
+    <footer id="kontak" className="border-t border-border bg-surface-container">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="space-y-3">
           <p className="text-[15px] font-semibold tracking-tight">{site.name}</p>

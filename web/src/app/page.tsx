@@ -28,6 +28,12 @@ const sectors = [
   },
 ];
 
+const tonalTiles = [
+  "bg-primary-container text-on-primary-container",
+  "bg-secondary-container text-on-secondary-container",
+  "bg-tertiary-container text-on-tertiary-container",
+];
+
 const outputs = [
   "Total kebutuhan produk dalam liter atau mililiter",
   "Jumlah kemasan yang perlu dibeli",
@@ -39,14 +45,20 @@ const limits = [
   {
     title: "Estimasi, bukan janji",
     body: "Angka dari kalkulator berasal dari dosis anjuran. Hasilnya titik awal untuk menyusun anggaran, bukan jaminan kenaikan produksi.",
+    // Limit ini paling kritis - ditandai dengan badge
+    critical: true,
   },
   {
     title: "Kondisi lapangan berbeda",
     body: "Tanah, air, iklim, dan fase pertumbuhan bisa mengubah kebutuhan. Periksa kembali dengan penyuluh atau tim kami sebelum aplikasi.",
+    // Limit menengah - tetap penting
+    critical: false,
   },
   {
     title: "Tanpa klaim yang belum ada",
     body: "Kami tidak menampilkan nomor izin, sertifikasi, atau angka hasil panen yang belum benar-benar kami miliki.",
+    // Limit ini bisa dilayangkan
+    critical: false,
   },
 ];
 
@@ -103,7 +115,7 @@ export default function Home() {
       <HeroCarousel />
 
       <section id="produk" className="scroll-mt-20 border-b border-border bg-surface-container">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-20 p-8">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
           <SectionHead index="01">Satu merek, tiga kebutuhan.</SectionHead>
           <p className="mt-5 max-w-xl text-pretty leading-relaxed text-on-primary-container/80">
             Setiap sektor punya cara pakai dan dosis yang berbeda. Kalkulator
@@ -112,24 +124,27 @@ export default function Home() {
 
           <PopularProducts />
 
-          <div className="mt-10 divide-y divide-border border-y border-border">
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {sectors.map((sector, index) => (
               <div
                 key={sector.title}
-                className="rounded-[56px_16px_56px_16px] p-5"
+                className={`flex flex-col rounded-[56px_16px_56px_16px] p-6 ${tonalTiles[index % tonalTiles.length]}`}
               >
-                <span aria-hidden="true" className="mt-1 mb-1 size-6 rounded-full bg-background text-primary" />
-                <div>
-                  <h3 className="mt-2 font-dm-sans text-lg font-semibold">
-                    {sector.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed opacity-85">
-                    {sector.description}
-                  </p>
-                </div>
+                <span
+                  aria-hidden="true"
+                  className="flex size-8 items-center justify-center rounded-[12px_4px_12px_4px] bg-background/60 font-mono text-[11px] tabular-nums"
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-3 font-dm-sans text-lg font-semibold">
+                  {sector.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed opacity-85">
+                  {sector.description}
+                </p>
                 <Link
                   href="#kalkulator"
-                  className="text-sm font-medium text-primary underline-offset-4 hover:no-underline underline-opacity-70"
+                  className="mt-auto pt-4 text-sm font-medium underline underline-offset-4 hover:no-underline"
                 >
                   Hitung dosis
                 </Link>
@@ -138,9 +153,9 @@ export default function Home() {
           </div>
 
           <div className="mt-8">
-            <div className="mt-6 rounded-full bg-primary-container p-4 text-on-primary-container">
+            <Button asChild className="rounded-full px-6">
               <Link href="/produk">Lihat semua produk</Link>
-            </div>
+            </Button>
           </div>
         </div>
       </section>
@@ -262,36 +277,115 @@ export default function Home() {
       </section>
 
       <section id="batasan" className="scroll-mt-20 border-b border-border bg-surface-container">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20 p-8">
-          <SectionHead index="03">
-            Batas yang kami sebut di depan.
-          </SectionHead>
-          <div>
-            <p className="text-pretty text-lg leading-relaxed">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-16">
+            <SectionHead index="03">
+              Batas yang kami sebut di depan.
+            </SectionHead>
+            <p className="text-pretty text-lg leading-relaxed text-on-primary-container/85">
               Alat ini dibuat untuk mengurangi salah beli, bukan untuk menjual
               harapan. Karena itu kami menuliskan batasannya di halaman depan.
             </p>
-            <dl className="mt-8 space-y-6">
-              {limits.map((limit) => (
-                <div key={limit.title} className="border-l border-primary/40 pl-5">
-                  <dt className="font-dm-sans font-medium text-on-primary-container">{limit.title}</dt>
-                  <dd className="mt-1.5 text-sm leading-relaxed text-on-primary-container/80">
-                    {limit.body}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
+
+          <dl className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="grid-column span-1">
+              <dt className="mt-2 font-dm-sans font-semibold text-on-primary-container critical-dt">
+                Estimasi, bukan janji
+              </dt>
+              <dd className="mt-1.5 text-sm leading-relaxed text-on-primary-container/80">
+                Angka dari kalkulator berasal dari dosis anjuran. Hasilnya titik awal untuk menyusun anggaran, bukan jaminan kenaikan produksi.
+              </dd>
+            </div>
+            <div className="grid-column span-1">
+              <dt className="mt-2 font-dm-sans font-semibold">
+                Kondisi lapangan berbeda
+              </dt>
+              <dd className="mt-1.5 text-sm leading-relaxed opacity-85">
+                Tanah, air, iklim, dan fase pertumbuhan bisa mengubah kebutuhan. Periksa kembali dengan penyuluh atau tim kami sebelum aplikasi.
+              </dd>
+            </div>
+            <div className="grid-column span-1">
+              <dt className="mt-2 font-dm-sans font-semibold">
+                Tanpa klaim yang belum ada
+              </dt>
+              <dd className="mt-1.5 text-sm leading-relaxed opacity-85">
+                Kami tidak menampilkan nomor izin, sertifikasi, atau angka hasil panen yang belum benar-benar kami miliki.
+              </dd>
+            </div>
+          </dl>
+
+          {/* Critical badge overlay for first limit - positioned via CSS on the dt */}
+          <style>{`
+            .critical-badge {
+              position: absolute;
+              top: 8px;
+              right: 8px;
+              background: var(--primary);
+              color: var(--primary-foreground);
+              font-size: var(--font-xs);
+              padding: 2px 6px;
+              border-radius: 9999px;
+            }
+            .critical-dt::after {
+              content: 'Direkomendasikan';
+              position: absolute;
+              top: 8px;
+              right: 8px;
+              background: var(--primary);
+              color: var(--primary-foreground);
+              font-size: var(--font-xs);
+              padding: 2px 6px;
+              border-radius: 9999px;
+            }
+          `}</style>
         </div>
       </section>
 
       <section id="tanya" className="scroll-mt-20 border-b border-border bg-surface-container">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20 p-8">
+        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20">
           <SectionHead index="04">Sebelum kamu mulai.</SectionHead>
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={faq.question} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-[15px] font-dm-sans">
+
+          {/* 3 FAQ kritis ditampilkan di atas lipatan */}
+          <div className="space-y-3">
+            {faqs.slice(0, 3).map((faq, index) => (
+              <div
+                key={faq.question}
+                className="rounded-[22px] bg-surface-container-high px-5 p-4"
+              >
+                <div className="flex items-baseline justify-between">
+                  <p className="text-[15px] font-dm-sans font-medium text-on-primary-container">
+                    {faq.question}
+                  </p>
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    className="size-4 rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-on-primary-container/80">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Sisa FAQ di dalam accordion */}
+          <Accordion type="single" collapsible className="w-full space-y-3">
+            {faqs.slice(3).map((faq, index) => (
+              <AccordionItem
+                key={faq.question}
+                value={`item-${index + 3}`}
+                className="rounded-[22px] bg-surface-container-high px-5 not-last:border-b-0"
+              >
+                <AccordionTrigger className="text-left text-[15px] font-dm-sans hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm leading-relaxed text-on-primary-container/80">

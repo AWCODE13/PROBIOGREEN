@@ -32,17 +32,21 @@ export function PopularProducts() {
   return (
     <div className="mt-10">
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-heading text-lg font-semibold">Produk populer</h3>
-        <p className="font-mono text-xs text-muted-foreground">Harga per kemasan</p>
+        <h3 className="font-dm-sans text-lg font-semibold text-on-primary-container">
+          Produk populer
+        </h3>
+        <p className="font-mono text-xs text-on-primary-container/70">
+          Harga per kemasan
+        </p>
       </div>
 
-      <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {!loaded
           ? [0, 1, 2].map((key) => (
               <div
                 key={key}
                 aria-hidden="true"
-                className="h-72 animate-pulse rounded-lg border border-border bg-card"
+                className="h-80 animate-pulse rounded-[28px] bg-surface-container-high"
               />
             ))
           : products.map((product) => <ProductCard key={product.id} product={product} />)}

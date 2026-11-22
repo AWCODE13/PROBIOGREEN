@@ -40,7 +40,7 @@ const slides = [
   },
 ];
 
-const AUTOPLAY_MS = 6000;
+const AUTOPLAY_MS = 8000;
 
 export function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -79,21 +79,24 @@ export function HeroCarousel() {
           if (event.key === "ArrowRight") nextSlide();
         }}
       >
-        <div className="relative h-[440px] overflow-hidden rounded-[32px] bg-[#D3EED9] shadow-none lg:h-[480px]">
+        <div
+          className="relative h-[440px] overflow-hidden rounded-[32px] bg-[#D3EED9] shadow-none lg:h-[480px]"
+        >
           {/* Foto: separuh kanan, tanpa overlay gelap */}
-          <div className="absolute inset-y-0 right-0 w-full lg:w-[62%]">
+          <div className="absolute inset-y-0 right-0 w-full lg:w-[62%] aspect-[4/3]">
             <img
               key={slide.image}
               src={slide.image}
               alt={slide.headline}
-              className="h-full w-full animate-[m3-carousel-img_520ms_cubic-bezier(0.2,0,0,1)] object-cover motion-reduce:animate-none"
+              className="h-full w-full object-cover motion-reduce:animate-none"
+              fetchPriority="high"
             />
           </div>
 
           {/* Blend: pastel sage di kiri yang melebur ke foto */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#D3EED9] via-[#D3EED9] via-[70%] to-transparent lg:w-[65%]"
+            className="pointer-events-none absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#D3EED9] via-[#D3EED9] to-transparent lg:w-[65%]"
           />
 
           {/* Konten teks */}
@@ -118,14 +121,14 @@ export function HeroCarousel() {
                 <Button
                   asChild
                   className="rounded-full bg-[#1B6B38] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#155330]"
-                >
+                  >
                   <Link href={slide.primaryHref}>{slide.primaryText}</Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-full border border-[#1B6B38] bg-transparent px-6 py-2.5 text-sm font-medium text-[#1B6B38] hover:bg-[#1B6B38]/10 hover:text-[#1B6B38]"
-                >
+                  className="rounded-full border border-[#1B6B38] bg-[#1B6B38]/10 px-6 py-2.5 text-sm font-medium text-white hover:bg-[#1B6B38]/20 hover:text-white"
+                  >
                   <Link href={slide.secondaryHref}>{slide.secondaryText}</Link>
                 </Button>
               </div>
@@ -133,14 +136,23 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        {/* Navigasi kiri/kanan */}
+        {/* Navigasi kiri/kanan - tombol 24px+ untuk touch target */}
         <button
           type="button"
           onClick={prevSlide}
           aria-label="Slide sebelumnya"
-          className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#F8FAF6]/90 text-[#072110] shadow-none transition-colors hover:bg-[#F8FAF6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="size-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
@@ -148,14 +160,60 @@ export function HeroCarousel() {
           type="button"
           onClick={nextSlide}
           aria-label="Slide berikutnya"
-          className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#F8FAF6]/90 text-[#072110] shadow-none transition-colors hover:bg-[#F8FAF6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="size-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M9 6l6 6-6 6" />
           </svg>
         </button>
 
-        {/* Indikator bawah */}
+        {/* Kontrol play/pause - persistently visible */}
+        <button
+          type="button"
+          onClick={() => setPaused(!paused)}
+          aria-label={paused ? "Mainkan carousel" : "Pause carousel"}
+          className="absolute left-1/2 -translate-x-1/2 bottom-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#1B6B38] text-white transition-colors hover:bg-[#155330] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          {paused ? (
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 4h4v16H6zm5.5-5.5L8.5 13.5l5.5 5.5" />
+            </svg>
+          ) : (
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="2" y="6" width="20" height="12" rx="2" ry="2" />
+              <path d="M10 8L17 12L10 16" />
+            </svg>
+          )}
+        </button>
+
+        {/* Indikator bawah - ukuran lebih besar untuk touch target */}
         <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center">
           {slides.map((item, index) => (
             <button
@@ -164,14 +222,14 @@ export function HeroCarousel() {
               onClick={() => goTo(index)}
               aria-label={`Slide ${index + 1}: ${item.badge}`}
               aria-current={index === currentSlide}
-              className="flex h-6 min-w-6 items-center justify-center rounded-full px-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+              className="flex h-8 min-w-8 items-center justify-center rounded-full px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
             >
               <span
                 aria-hidden="true"
                 className={
                   index === currentSlide
-                    ? "block h-2.5 w-8 rounded-full bg-[#1B6B38] transition-all"
-                    : "block h-2.5 w-2.5 rounded-full bg-[#072110]/30 transition-all hover:bg-[#072110]/50"
+                    ? "block h-3 w-8 rounded-full bg-[#1B6B38] transition-all"
+                    : "block h-3 w-3 rounded-full bg-[#072110]/30 transition-all hover:bg-[#072110]/50"
                 }
               />
             </button>

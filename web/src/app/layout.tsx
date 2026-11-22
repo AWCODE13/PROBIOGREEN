@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist_Mono, Instrument_Sans } from "next/font/google";
+import { DM_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { site } from "@/lib/site";
 
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
+  axes: ["opsz"],
 });
 
 const geistMono = Geist_Mono({
@@ -45,7 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${instrumentSans.variable} ${fraunces.variable} ${geistMono.variable} h-full`}
+      className={`${dmSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground antialiased">
         <ThemeProvider>
