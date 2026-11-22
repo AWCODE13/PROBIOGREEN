@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { HeroCarousel } from "@/components/hero-carousel";
 import {
   Accordion,
   AccordionContent,
@@ -86,7 +87,7 @@ function SectionHead({
 }) {
   return (
     <div className="border-t border-border pt-5">
-      <p className="font-mono text-xs tabular-nums text-muted-foreground">
+      <p className="font-mono text-xs font-medium tabular-nums text-on-primary-container/80">
         {index}
       </p>
       <h2 className="mt-3 max-w-2xl text-balance font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -99,62 +100,12 @@ function SectionHead({
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden border-b border-border">
-        <picture className="absolute inset-0 -z-20">
-          <source srcSet="/images/bg.webp" type="image/webp" />
-          <img
-            src="/images/bg.png"
-            alt=""
-            aria-hidden="true"
-            className="size-full object-cover"
-          />
-        </picture>
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/30"
-        />
+      <HeroCarousel />
 
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-          <div className="max-w-2xl">
-            <h1 className="text-balance font-heading text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
-              Hitung kebutuhan dulu, sebelum membeli.
-            </h1>
-            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/85 sm:text-lg">
-              Masukkan luas lahan atau jumlah ternak. Kebutuhan produk, perkiraan
-              biaya, dan jadwal aplikasi muncul dalam satu menit, tanpa akun.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href="#kalkulator">Pelajari cara hitungnya</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white"
-              >
-                <Link href="#produk">Lihat kategori</Link>
-              </Button>
-            </div>
-            <p className="mt-7 text-sm text-white/75">
-              Pertanian
-              <span aria-hidden="true" className="mx-2 text-white/40">
-                /
-              </span>
-              Peternakan
-              <span aria-hidden="true" className="mx-2 text-white/40">
-                /
-              </span>
-              Perikanan
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="produk" className="scroll-mt-20 border-b border-border">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
+      <section id="produk" className="scroll-mt-20 border-b border-border bg-surface-container">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-20 p-8">
           <SectionHead index="01">Satu merek, tiga kebutuhan.</SectionHead>
-          <p className="mt-5 max-w-xl text-pretty leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-xl text-pretty leading-relaxed text-on-primary-container/80">
             Setiap sektor punya cara pakai dan dosis yang berbeda. Kalkulator
             memilihkan jumlahnya berdasarkan komoditas yang kamu masukkan.
           </p>
@@ -165,22 +116,20 @@ export default function Home() {
             {sectors.map((sector, index) => (
               <div
                 key={sector.title}
-                className="grid gap-3 py-6 sm:grid-cols-[3rem_1fr_auto] sm:items-baseline sm:gap-6"
+                className="rounded-[56px_16px_56px_16px] p-5"
               >
-                <span className="font-mono text-xs tabular-nums text-muted-foreground">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                <span aria-hidden="true" className="mt-1 mb-1 size-6 rounded-full bg-background text-primary" />
                 <div>
-                  <h3 className="font-heading text-xl font-semibold">
+                  <h3 className="mt-2 font-dm-sans text-lg font-semibold">
                     {sector.title}
                   </h3>
-                  <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1.5 text-sm leading-relaxed opacity-85">
                     {sector.description}
                   </p>
                 </div>
                 <Link
                   href="#kalkulator"
-                  className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                  className="text-sm font-medium text-primary underline-offset-4 hover:no-underline underline-opacity-70"
                 >
                   Hitung dosis
                 </Link>
@@ -189,9 +138,9 @@ export default function Home() {
           </div>
 
           <div className="mt-8">
-            <Button asChild variant="outline">
+            <div className="mt-6 rounded-full bg-primary-container p-4 text-on-primary-container">
               <Link href="/produk">Lihat semua produk</Link>
-            </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -224,7 +173,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col rounded-[32px] bg-secondary-container p-7 text-on-secondary-container sm:p-9 lg:col-span-5">
-              <h3 className="font-heading text-xl font-semibold">Yang kamu dapat</h3>
+              <h3 className="mt-2 font-dm-sans text-lg font-semibold">Yang kamu dapat</h3>
               <ol className="mt-5 space-y-3">
                 {outputs.map((item, index) => (
                   <li key={item} className="flex gap-3 text-sm leading-relaxed">
@@ -260,13 +209,13 @@ export default function Home() {
 
             <div className="grid gap-4 sm:grid-cols-3 lg:col-span-12">
               <div className="rounded-[28px] bg-surface-container-high p-6">
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-on-primary-container/70">
                   Isian
                 </p>
                 <p className="mt-2 font-heading text-lg font-semibold">
                   Komoditas, ukuran, dan siklus.
                 </p>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1.5 text-sm leading-relaxed text-on-primary-container/80">
                   Tiga kolom saja, sisanya memakai data dosis yang dikelola tim.
                 </p>
               </div>
@@ -285,7 +234,7 @@ export default function Home() {
               </div>
 
               <div className="rounded-[28px] bg-surface-container-high p-6">
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-on-primary-container/70">
                   Kecepatan
                 </p>
                 <p className="mt-2 font-heading text-lg font-semibold">
@@ -312,8 +261,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="batasan" className="scroll-mt-20 border-b border-border">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20">
+      <section id="batasan" className="scroll-mt-20 border-b border-border bg-surface-container">
+        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20 p-8">
           <SectionHead index="03">
             Batas yang kami sebut di depan.
           </SectionHead>
@@ -325,8 +274,8 @@ export default function Home() {
             <dl className="mt-8 space-y-6">
               {limits.map((limit) => (
                 <div key={limit.title} className="border-l border-primary/40 pl-5">
-                  <dt className="font-medium">{limit.title}</dt>
-                  <dd className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  <dt className="font-dm-sans font-medium text-on-primary-container">{limit.title}</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-on-primary-container/80">
                     {limit.body}
                   </dd>
                 </div>
@@ -336,16 +285,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="tanya" className="scroll-mt-20 border-b border-border">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20">
+      <section id="tanya" className="scroll-mt-20 border-b border-border bg-surface-container">
+        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-20 p-8">
           <SectionHead index="04">Sebelum kamu mulai.</SectionHead>
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={faq.question} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-[15px]">
+                <AccordionTrigger className="text-left text-[15px] font-dm-sans">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                <AccordionContent className="text-sm leading-relaxed text-on-primary-container/80">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -354,18 +303,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-primary text-primary-foreground">
+      <section className="bg-primary-container text-on-primary-container">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-end md:justify-between lg:py-16">
           <div className="max-w-xl">
-            <h2 className="text-balance font-heading text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="font-dm-sans text-2xl font-semibold tracking-tight sm:text-3xl text-on-primary-container">
               Belum yakin dengan dosisnya?
             </h2>
-            <p className="mt-3 text-pretty leading-relaxed text-primary-foreground/85">
+            <p className="mt-3 text-pretty leading-relaxed text-on-primary-container/85">
               Kirim komoditas dan luas lahannya. Tim kami bantu memeriksa
               kebutuhan dan ketersediaan produk.
             </p>
           </div>
-          <Button asChild size="lg" variant="secondary" className="shrink-0">
+          <Button asChild size="lg" className="shrink-0 rounded-full bg-[#1B6B38] px-8 text-white hover:bg-[#155330]">
             <Link href={consultationHref}>Tanya kebutuhan</Link>
           </Button>
         </div>

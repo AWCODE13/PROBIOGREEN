@@ -56,7 +56,8 @@ export default function ProdukPage() {
             produk yang sesuai dengan kebutuhan Anda.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <h2 className="sr-only">Daftar produk</h2>
+<div className="mt-8 flex flex-wrap gap-3">
             <Button
               variant={selectedCategory === null ? "default" : "outline"}
               onClick={() => setSelectedCategory(null)}
