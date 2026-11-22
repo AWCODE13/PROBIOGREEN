@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CalculatorPreview } from "@/components/site/calculator-preview";
 import { PopularProducts } from "@/components/site/popular-products";
 import { consultationHref } from "@/lib/site";
 
@@ -197,42 +196,118 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="kalkulator" className="scroll-mt-20 border-b border-border">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:gap-16 lg:py-20">
-          <div>
-            <SectionHead index="02">Tiga angka, sisanya kami hitung.</SectionHead>
-            <p className="mt-5 text-pretty leading-relaxed text-muted-foreground">
-              Tidak perlu menebak berapa botol yang harus dibeli. Kalkulator
-              menerjemahkan luas lahan, populasi, atau volume kolam menjadi
-              kebutuhan yang bisa langsung dipakai untuk menyusun anggaran.
-            </p>
-            <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
-              Isian yang diminta sengaja sedikit: komoditas, ukuran lahan atau
-              populasi, dan lama siklus untuk ternak dan ikan. Selebihnya dihitung
-              dari data dosis yang dikelola tim.
-            </p>
-
-            <div className="mt-8">
-              <CalculatorPreview />
+      <section id="kalkulator" className="scroll-mt-20 border-b border-border bg-surface-container">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="grid gap-4 lg:grid-cols-12">
+            <div className="rounded-[32px] bg-primary-container p-7 text-on-primary-container sm:p-9 lg:col-span-7">
+              <p className="font-mono text-xs tabular-nums text-on-primary-container/70">
+                02
+              </p>
+              <h2 className="mt-3 max-w-lg text-balance font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+                Tiga angka, sisanya kami hitung.
+              </h2>
+              <p className="mt-5 max-w-lg text-pretty leading-relaxed text-on-primary-container/85">
+                Tidak perlu menebak berapa botol yang harus dibeli. Kalkulator
+                menerjemahkan luas lahan, populasi, atau volume kolam menjadi
+                kebutuhan yang bisa langsung dipakai untuk menyusun anggaran.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-2">
+                {["Tanpa akun", "Tanpa aplikasi", "Hasil langsung"].map((chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full bg-on-primary-container/10 px-3 py-1 text-xs font-medium"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="rounded-lg border border-border bg-card p-6">
-            <h3 className="font-heading text-lg font-semibold">Yang kamu dapat</h3>
-            <ul className="mt-4 divide-y divide-border">
-              {outputs.map((item) => (
-                <li key={item} className="py-3 text-sm leading-relaxed">
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-              Hasil perhitungan adalah estimasi berdasarkan dosis anjuran.
-              Kondisi lahan, air, dan iklim dapat mengubah kebutuhan aktual.
-            </p>
-            <Button asChild variant="outline" className="mt-5 w-full">
-              <Link href={consultationHref}>Tanya kebutuhan</Link>
-            </Button>
+            <div className="flex flex-col rounded-[32px] bg-secondary-container p-7 text-on-secondary-container sm:p-9 lg:col-span-5">
+              <h3 className="font-heading text-xl font-semibold">Yang kamu dapat</h3>
+              <ol className="mt-5 space-y-3">
+                {outputs.map((item, index) => (
+                  <li key={item} className="flex gap-3 text-sm leading-relaxed">
+                    <span
+                      aria-hidden="true"
+                      className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-[12px_4px_12px_4px] bg-on-secondary-container/10 font-mono text-[11px] tabular-nums"
+                    >
+                      {index + 1}
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-auto pt-7">
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button asChild className="rounded-full px-5">
+                    <Link href="/kalkulator">Buka kalkulator</Link>
+                  </Button>
+                  <Link
+                    href={consultationHref}
+                    className="text-sm font-medium underline underline-offset-4 hover:no-underline"
+                  >
+                    Tanya kebutuhan
+                  </Link>
+                </div>
+                <p className="mt-4 text-xs leading-relaxed text-on-secondary-container/75">
+                  Hasil perhitungan adalah estimasi. Kondisi lahan, air, dan iklim
+                  dapat mengubah kebutuhan aktual.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3 lg:col-span-12">
+              <div className="rounded-[28px] bg-surface-container-high p-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  Isian
+                </p>
+                <p className="mt-2 font-heading text-lg font-semibold">
+                  Komoditas, ukuran, dan siklus.
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  Tiga kolom saja, sisanya memakai data dosis yang dikelola tim.
+                </p>
+              </div>
+
+              <div className="rounded-[28px_8px_28px_8px] bg-tertiary-container p-6 text-on-tertiary-container">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] opacity-70">
+                  Keluaran
+                </p>
+                <p className="mt-2 font-heading text-lg font-semibold">
+                  Liter, kemasan, biaya.
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed opacity-85">
+                  Anggapannya rata-rata pupuk organik cair, bukan dosis resmi
+                  produk.
+                </p>
+              </div>
+
+              <div className="rounded-[28px] bg-surface-container-high p-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  Kecepatan
+                </p>
+                <p className="mt-2 font-heading text-lg font-semibold">
+                  Sekitar satu menit.
+                </p>
+                <div aria-hidden="true" className="relative mt-5 h-3 overflow-hidden text-primary">
+                  <svg
+                    viewBox="0 0 200 12"
+                    preserveAspectRatio="none"
+                    className="m3-wave absolute inset-y-0 left-0 h-3 w-[200%]"
+                  >
+                    <path
+                      d="M0 6 q 12.5 -6 25 0 t 25 0 t 25 0 t 25 0 t 25 0 t 25 0 t 25 0 t 25 0"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
