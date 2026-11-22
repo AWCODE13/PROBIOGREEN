@@ -136,12 +136,12 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        {/* Navigasi kiri/kanan - tombol sentuh, tetap visible di mobile */}
+        {/* Navigasi kiri/kanan - tombol sentuh */}
         <button
           type="button"
           onClick={prevSlide}
           aria-label="Slide sebelumnya"
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute left-1 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
           <svg
             aria-hidden="true"
@@ -160,7 +160,7 @@ export function HeroCarousel() {
           type="button"
           onClick={nextSlide}
           aria-label="Slide berikutnya"
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
+          className="absolute right-1 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#F8FAF6]/90 hover:bg-[#F8FAF6] text-[#072110] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B38]"
         >
           <svg
             aria-hidden="true"
